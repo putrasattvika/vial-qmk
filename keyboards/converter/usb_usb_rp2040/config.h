@@ -10,8 +10,11 @@
 // For example, if USB_DEVICE_DATAPLUS_PIN is 0, then connect:
 //   - USB Data+ pin to GPIO0
 //   - USB Data- pin to GPIO1
-#define USB_DEVICE_DATAPLUS_PIN 0
+#define USB_DEVICE_DATAPLUS_PIN 18
 
 // Size of the virtual matrix
 #define MATRIX_ROWS 16
 #define MATRIX_COLS 16
+
+// #define WEAR_LEVELING_DEBUG_OUTPUT 1
+// #define PICO_RP2040_USB_FAST_IRQ 1

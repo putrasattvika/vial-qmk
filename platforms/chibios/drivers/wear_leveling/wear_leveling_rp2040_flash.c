@@ -171,6 +171,9 @@ bool backing_store_unlock(void) {
     return true;
 }
 
+__attribute__((weak)) void pico_before_flash_operation(void) {}
+__attribute__((weak)) void pico_after_flash_operation(void) {}
+
 bool backing_store_erase(void) {
 #ifdef WEAR_LEVELING_DEBUG_OUTPUT
     uint32_t start = timer_read32();
@@ -180,8 +183,12 @@ bool backing_store_erase(void) {
     _Static_assert((WEAR_LEVELING_BACKING_SIZE) % (FLASH_SECTOR_SIZE) == 0, "Backing size must be a multiple of FLASH_SECTOR_SIZE");
 
     interrupts = save_and_disable_interrupts();
+    pico_before_flash_operation();
+
     flash_range_erase((WEAR_LEVELING_RP2040_FLASH_BASE), (WEAR_LEVELING_BACKING_SIZE));
+
     restore_interrupts(interrupts);
+    pico_after_flash_operation();
 
     bs_dprintf("Backing store erase took %ldms to complete\n", ((long)(timer_read32() - start)));
     return true;
@@ -195,9 +202,15 @@ bool backing_store_write_bulk(uint32_t address, backing_store_int_t *values, siz
     uint32_t offset = (WEAR_LEVELING_RP2040_FLASH_BASE) + address;
     bs_dprintf("Write ");
     wl_dump(offset, values, sizeof(backing_store_int_t) * item_count);
+
     interrupts = save_and_disable_interrupts();
+    pico_before_flash_operation();
+
     pico_program_bulk(offset, values, item_count);
+
     restore_interrupts(interrupts);
+    pico_after_flash_operation();
+
     return true;
 }
 

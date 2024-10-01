@@ -1,4 +1,11 @@
+# Hardware
+OPT_DEFS += -DCRT0_EXTRA_CORES_NUMBER=1
+OPT_DEFS += -DPICO_NO_FLASH=1
+# OPT_DEFS += -Wno-unused-variable
+
 # Keyboard
+CONSOLE_ENABLE = yes
+
 CUSTOM_MATRIX = yes
 SRC += pico_sdk_mock.c
 SRC += keyboard.c

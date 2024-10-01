@@ -42,7 +42,6 @@ ifeq ($(strip $(CONSOLE_ENABLE)), yes)
 else
     # TODO: decouple this so other print backends can exist
     OPT_DEFS += -DNO_PRINT
-    OPT_DEFS += -DNO_DEBUG
 endif
 
 ifeq ($(strip $(NKRO_ENABLE)), yes)
